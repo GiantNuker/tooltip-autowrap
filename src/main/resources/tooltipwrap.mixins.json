@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "package": "com.gitlab.indicode.fabric.tooltipwrap.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+  ],
+  "client": [
+    "ScreenMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
