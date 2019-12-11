@@ -6,7 +6,7 @@
   "name": "Tooltip Autowrap",
   "description": "Move & autowrap tooltips so they don't fall off the edge of the screen.",
   "authors": [
-    "Indicode"
+    "GiantNuker"
   ],
   "contact": {
     "homepage": "https://www.curseforge.com/minecraft/mc-mods/tooltip-autowrap",
@@ -17,7 +17,7 @@
   "license": "CC0-1.0",
   "icon": "assets/tooltipwrap/icon.png",
 
-  "environment": "*",
+  "environment": "client",
   "entrypoints": {
   },
   "mixins": [
@@ -25,10 +25,6 @@
   ],
 
   "depends": {
-    "fabricloader": ">=0.4.0",
-    "fabric": "*"
-  },
-  "suggests": {
-    "flamingo": "*"
+    "fabricloader": ">=0.4.0"
   }
 }

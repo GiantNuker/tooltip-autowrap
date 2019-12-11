@@ -1,8 +1,6 @@
-package com.gitlab.indicode.fabric.tooltipwrap;
+package io.github.giantnuker.fabric.tooltipwrap;
 
 import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.util.TextComponentUtil;
-import net.minecraft.datafixers.fixes.ChunkPalettedStorageFix;
 import net.minecraft.util.Formatting;
 
 import java.util.ArrayList;

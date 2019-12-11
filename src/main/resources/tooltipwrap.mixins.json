@@ -1,9 +1,7 @@
 {
   "required": true,
-  "package": "com.gitlab.indicode.fabric.tooltipwrap.mixin",
+  "package": "io.github.giantnuker.fabric.tooltipwrap.mixin",
   "compatibilityLevel": "JAVA_8",
-  "mixins": [
-  ],
   "client": [
     "ScreenMixin"
   ],

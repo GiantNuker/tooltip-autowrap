@@ -1,13 +1,12 @@
-package com.gitlab.indicode.fabric.tooltipwrap.mixin;
+package io.github.giantnuker.fabric.tooltipwrap.mixin;
 
-import com.gitlab.indicode.fabric.tooltipwrap.TooltipDataHolder;
-import com.mojang.blaze3d.platform.GlStateManager;
-import net.minecraft.client.font.Font;
+import io.github.giantnuker.fabric.tooltipwrap.TooltipDataHolder;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.render.GuiLighting;
+import net.minecraft.client.render.VertexConsumerProvider;
+import net.minecraft.client.render.item.ItemRenderer;
+import net.minecraft.client.util.math.Matrix4f;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -15,8 +14,6 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import javax.tools.Tool;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -30,6 +27,8 @@ public class ScreenMixin {
     public int width;
     @Shadow
     public int height;
+    @Shadow protected ItemRenderer itemRenderer;
+
     @Inject(method = "renderTooltip(Ljava/util/List;II)V", at = @At("HEAD"))
     public void readInitialVariables(List<String> strings, int x, int y, CallbackInfo ci) {
         TooltipDataHolder.initX = x;
@@ -55,7 +54,7 @@ public class ScreenMixin {
     */
     @ModifyVariable(method = "renderTooltip(Ljava/util/List;II)V", ordinal = 3, at = @At(value = "FIELD", target = "Lnet/minecraft/client/render/item/ItemRenderer;zOffset:F", ordinal = 0))
     public int fixXPosition(int x) {
-        return x < 5 ? 5 : x;
+        return Math.max(x, 5);
     }
     @ModifyVariable(method = "renderTooltip(Ljava/util/List;II)V", ordinal = 4, at = @At(value = "FIELD", target = "Lnet/minecraft/client/render/item/ItemRenderer;zOffset:F", ordinal = 0))
     public int fixYPosition(int y) {
@@ -75,17 +74,17 @@ public class ScreenMixin {
     public int fixHeight(int height) {
         return TooltipDataHolder.getNewHeight();
     }
-    @Redirect(method = "renderTooltip(Ljava/util/List;II)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/font/TextRenderer;drawWithShadow(Ljava/lang/String;FFI)I"))
-    public int drawWrapped(TextRenderer font, String string, float x, float y_unused, int i) {
-        if (TooltipDataHolder.isOffender(string)) {
-            int y = TooltipDataHolder.txtY;
-            for (String chop: TooltipDataHolder.chop(string)) {
-                font.drawWithShadow(chop, x, y += 10, i);
+    @Redirect(method = "renderTooltip(Ljava/util/List;II)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/font/TextRenderer;draw(Ljava/lang/String;FFIZLnet/minecraft/client/util/math/Matrix4f;Lnet/minecraft/client/render/VertexConsumerProvider;ZII)I"))
+    public int drawWrapped(TextRenderer textRenderer, String text, float x, float y, int color, boolean shadow, Matrix4f matrix, VertexConsumerProvider vertexConsumerProvider, boolean seeThrough, int backgroundColor, int light) {
+        if (TooltipDataHolder.isOffender(text)) {
+            int yp = TooltipDataHolder.txtY;
+            for (String chop: TooltipDataHolder.chop(text)) {
+                font.draw(chop, x, yp += 10, color, shadow, matrix, vertexConsumerProvider, seeThrough, backgroundColor, light);
             }
-            TooltipDataHolder.txtY = y;
+            TooltipDataHolder.txtY = yp;
             return 0;
         } else {
-            return font.drawWithShadow(string, x, TooltipDataHolder.txtY += 10, i);
+            return font.draw(text, x, TooltipDataHolder.txtY += 10, color, shadow, matrix, vertexConsumerProvider, seeThrough, backgroundColor, light);
         }
     }
     /*@Overwrite
