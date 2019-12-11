@@ -10,8 +10,8 @@
   ],
   "contact": {
     "homepage": "https://www.curseforge.com/minecraft/mc-mods/tooltip-autowrap",
-    "sources": "https://gitlab.com/indicode/tooltip-autowrap",
-    "issues": "https://gitlab.com/indicode/tooltip-autowrap/issues"
+    "sources": "https://github.com/GiantNuker/tooltip-autowrap",
+    "issues": "https://github.com/GiantNuker/tooltip-autowrap/issues"
   },
 
   "license": "CC0-1.0",
