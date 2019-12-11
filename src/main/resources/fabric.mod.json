@@ -2,7 +2,6 @@
   "schemaVersion": 1,
   "id": "tooltipwrap",
   "version": "${version}",
-
   "name": "Tooltip Autowrap",
   "description": "Move & autowrap tooltips so they don't fall off the edge of the screen.",
   "authors": [
@@ -13,18 +12,18 @@
     "sources": "https://github.com/GiantNuker/tooltip-autowrap",
     "issues": "https://github.com/GiantNuker/tooltip-autowrap/issues"
   },
-
   "license": "CC0-1.0",
   "icon": "assets/tooltipwrap/icon.png",
-
   "environment": "client",
   "entrypoints": {
   },
   "mixins": [
     "tooltipwrap.mixins.json"
   ],
-
   "depends": {
     "fabricloader": ">=0.4.0"
+  },
+  "custom": {
+    "modmenu:clientsideOnly": true
   }
 }
